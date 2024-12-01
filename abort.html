@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abort Bot</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 50px;
+            font-weight: bold;
+            margin-top: 0;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        .btn {
+            background-color: rgba(128, 128, 128, 0.5);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.2s ease, box-shadow 0.3s;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        .btn:hover {
+            background-color: rgba(128, 128, 128, 0.7);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:active {
+            transform: scale(1.02);
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            background-color: white;
+            border-radius: 50%;
+            user-select: none;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .logo {
+            margin-bottom: 50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes snowFall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .blue-text {
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="logo.png" alt="Logo" class="logo" id="logo">
+
+    <h1>abort is Discord's free <span class="blue-text">all-in-one</span> bot</h1>
+
+    <div>
+        <a href="https://discord.com/oauth2/authorize?client_id=1312273429029982219&permissions=8&integration_type=0&scope=bot+applications.commands" class="btn" target="_blank">Invite Abort</a>
+        <a href="https://discord.gg/abortion" class="btn" target="_blank">Contact Us</a>
+    </div>
+
+    <script>
+        const numSnowflakes = 50;
+        const snowflakes = [];
+
+        function createSnowflakes() {
+            for (let i = 0; i < numSnowflakes; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.style.width = `${Math.random() * 10 + 5}px`;
+                snowflake.style.height = snowflake.style.width;
+                snowflake.style.left = `${Math.random() * 100}vw`;
+                snowflake.style.animation = `snowFall ${Math.random() * 10 + 5}s linear infinite`;
+                snowflake.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(snowflake);
+                snowflakes.push(snowflake);
+            }
+        }
+
+        createSnowflakes();
+    </script>
+
+</body>
+</html>
