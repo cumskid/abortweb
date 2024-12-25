@@ -1,131 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abort Bot</title>
+    <title>Jackson x.x</title>
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
+            height: 100%;
             overflow: hidden;
-            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        #splash-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            text-align: center;
+            color: white;
+            font-size: 3em;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 1s ease-out;
         }
 
-        h1 {
-            font-size: 50px;
-            font-weight: bold;
-            margin-top: 0;
-            opacity: 0;
-            animation: fadeIn 2s forwards;
-        }
-
-        .btn {
-            background-color: rgba(128, 128, 128, 0.5);
+        #splash-screen button {
+            background-color: transparent;
             border: none;
             color: white;
-            padding: 15px 30px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 20px;
-            margin: 10px;
+            font-size: 2em;
             cursor: pointer;
-            border-radius: 10px;
-            transition: background-color 0.3s, transform 0.2s ease, box-shadow 0.3s;
-            opacity: 0;
-            animation: fadeIn 2s forwards;
+            font-weight: bold;
+            transition: transform 0.2s, color 0.3s;
         }
 
-        .btn:hover {
-            background-color: rgba(128, 128, 128, 0.7);
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        #splash-screen button:hover {
+            color: #8B0000;
+            transform: scale(1.1);
         }
 
-        .btn:active {
-            transform: scale(1.02);
-        }
-
-        .snowflake {
+        .background {
             position: absolute;
-            top: -10px;
-            background-color: white;
-            border-radius: 50%;
-            user-select: none;
-            pointer-events: none;
-            opacity: 0.7;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('calm.png');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
         }
 
-        .logo {
-            margin-bottom: 50px;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
+        #popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 700px;
+            height: 400px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 30px;
+            color: white;
+            font-size: 1.8em;
+            display: none;
+            padding: 30px;
+            box-sizing: border-box;
             opacity: 0;
             animation: fadeIn 2s forwards;
+            overflow: hidden;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
         @keyframes fadeIn {
             0% {
                 opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
             }
             100% {
                 opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
             }
         }
 
-        @keyframes snowFall {
-            to {
-                transform: translateY(100vh);
-            }
+        #profile-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            transition: opacity 2s ease-in-out;
         }
 
-        .blue-text {
-            color: #3498db;
+        #profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #name-text {
+            margin-left: 20px;
+            font-size: 2em;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid white;
+            padding-right: 5px;
+            position: absolute;
+            top: 50px;
+            left: 210px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .buttons img {
+            width: 80px;
+            height: 80px;
+            margin: 0 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .buttons img:hover {
+            transform: scale(1.1);
+        }
+
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            z-index: 999;
+        }
+
+        .volume-slider {
+            width: 150px;
+            cursor: pointer;
+        }
+
+        .volume-slider:focus {
+            outline: none;
         }
     </style>
 </head>
+
 <body>
-
-    <img src="logo.png" alt="Logo" class="logo" id="logo">
-
-    <h1>abort is Discord's free <span class="blue-text">all-in-one</span> bot</h1>
-
-    <div>
-        <a href="https://discord.com/oauth2/authorize?client_id=1312273429029982219&permissions=8&integration_type=0&scope=bot+applications.commands" class="btn" target="_blank">Invite Abort</a>
-        <a href="https://discord.gg/abortion" class="btn" target="_blank">Contact Us</a>
+    <div id="splash-screen">
+        <button onclick="enterPage()">x.x</button>
     </div>
 
-    <script>
-        const numSnowflakes = 50;
-        const snowflakes = [];
+    <div class="background"></div>
 
-        function createSnowflakes() {
-            for (let i = 0; i < numSnowflakes; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.classList.add('snowflake');
-                snowflake.style.width = `${Math.random() * 10 + 5}px`;
-                snowflake.style.height = snowflake.style.width;
-                snowflake.style.left = `${Math.random() * 100}vw`;
-                snowflake.style.animation = `snowFall ${Math.random() * 10 + 5}s linear infinite`;
-                snowflake.style.animationDelay = `${Math.random() * 5}s`;
-                document.body.appendChild(snowflake);
-                snowflakes.push(snowflake);
-            }
+    <div id="popup">
+        <div id="profile-circle">
+            <img src="pfp.png" alt="Profile Picture">
+        </div>
+        <div id="name-text"></div>
+        <div class="buttons">
+            <img src="discord.gif" alt="discord" onclick="window.location.href='https://discordlookup.com/user/1310476325793955870'">
+        </div>
+    </div>
+
+    <div class="audio-controls">
+        <input id="volumeSlider" class="volume-slider" type="range" min="0" max="1" step="0.01" value="1" onchange="adjustVolume()">
+    </div>
+
+    <audio id="audio" src="swim.mp3" preload="auto" loop></audio>
+
+    <script>
+        let audio = document.getElementById("audio");
+
+        function adjustVolume() {
+            let volumeSlider = document.getElementById("volumeSlider");
+            audio.volume = volumeSlider.value;
         }
 
-        createSnowflakes();
-    </script>
+        function enterPage() {
+            let splashScreen = document.getElementById("splash-screen");
+            splashScreen.style.opacity = 0;
+            setTimeout(function() {
+                splashScreen.style.display = "none";
+            }, 1000);
+            document.body.style.overflow = "auto";
+            audio.play();
 
+            let popup = document.getElementById("popup");
+            popup.style.display = "flex";
+            setTimeout(() => {
+                popup.style.opacity = 1;
+            }, 100);
+
+            startTypewriter("jackson >.<");
+        }
+
+        function startTypewriter(text) {
+            let i = 0;
+            let nameText = document.getElementById("name-text");
+            let profileCircle = document.getElementById("profile-circle");
+            nameText.innerHTML = "";
+
+            function typing() {
+                if (i < text.length) {
+                    nameText.innerHTML += text.charAt(i);
+                    i++;
+                } else {
+                    setTimeout(() => {
+                        nameText.style.transition = "opacity 1s ease";
+                        nameText.style.opacity = "0";
+                        profileCircle.style.transition = "opacity 1s ease";
+                        profileCircle.style.opacity = "0";
+                        showButtons();
+                    }, 1000);
+                }
+            }
+
+            setInterval(typing, 120);
+        }
+
+        function showButtons() {
+            let buttons = document.querySelector(".buttons");
+            buttons.style.opacity = "1";
+        }
+    </script>
 </body>
+
 </html>
