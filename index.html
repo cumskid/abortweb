@@ -1,254 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jackson x.x</title>
+    <title>Donations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
+        body {
+            background-color: #0D0D0D;
+            color: white;
             font-family: Arial, sans-serif;
         }
-
-        #splash-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 3em;
-            z-index: 9999;
-            opacity: 1;
-            transition: opacity 1s ease-out;
+        .bg-gradient {
+            background-image: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 80%);
         }
-
-        #splash-screen button {
-            background-color: transparent;
-            border: none;
-            color: white;
-            font-size: 2em;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s, color 0.3s;
+        .crypto-button {
+            transition: all 0.3s ease;
         }
-
-        #splash-screen button:hover {
-            color: #8B0000;
-            transform: scale(1.1);
+        .crypto-button:hover {
+            background-color: #3A3A3A;
         }
-
-        .background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('calm.png');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
+        .crypto-button.selected {
+            background-color: #4A9EFF;
         }
-
-        #popup {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 700px;
-            height: 400px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 30px;
-            color: white;
-            font-size: 1.8em;
-            display: none;
-            padding: 30px;
-            box-sizing: border-box;
-            opacity: 0;
-            animation: fadeIn 2s forwards;
-            overflow: hidden;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.8);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        #profile-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            transition: opacity 2s ease-in-out;
-        }
-
-        #profile-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        #name-text {
-            margin-left: 20px;
-            font-size: 2em;
-            color: white;
-            font-family: 'Courier New', Courier, monospace;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 3px solid white;
-            padding-right: 5px;
-            position: absolute;
-            top: 50px;
-            left: 210px;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
-        }
-
-        .buttons img {
-            width: 80px;
-            height: 80px;
-            margin: 0 15px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .buttons img:hover {
-            transform: scale(1.1);
-        }
-
-        .audio-controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            z-index: 999;
-        }
-
-        .volume-slider {
-            width: 150px;
-            cursor: pointer;
-        }
-
-        .volume-slider:focus {
-            outline: none;
+        .donation-select {
+            transition: all 0.3s ease;
         }
     </style>
 </head>
-
-<body>
-    <div id="splash-screen">
-        <button onclick="enterPage()">x.x</button>
-    </div>
-
-    <div class="background"></div>
-
-    <div id="popup">
-        <div id="profile-circle">
-            <img src="pfp.png" alt="Profile Picture">
+<body class="min-h-screen bg-gradient flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-3xl mx-auto text-center space-y-8 mt-8">
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tight">
+            Crypto Donations
+        </h1>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
+            Support our development services!
+        </p>
+        <div id="cryptoDonationForm" class="w-full bg-[#1A1A1A] backdrop-blur-sm bg-opacity-80 rounded-lg overflow-hidden shadow-2xl">
+            <div class="p-8">
+                <div id="cryptoButtons" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <!-- Crypto buttons will be inserted here -->
+                </div>
+                <div id="addressDisplay" class="hidden">
+                    <div class="bg-[#2A2A2A] rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4">
+                            <span id="selectedCryptoName"></span> Donation Address
+                        </h3>
+                        <div class="bg-[#1A1A1A] rounded border border-[#3A3A3A] p-4 mb-4">
+                            <code id="cryptoAddress" class="text-sm break-all text-gray-300"></code>
+                        </div>
+                        <button id="copyButton" class="w-full py-3 px-4 rounded-lg transition-colors bg-[#4A9EFF] text-white hover:bg-[#3A8EEF]">
+                            Copy Address
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-[#2A2A2A] px-8 py-4">
+                <p class="text-sm text-gray-400 text-center">
+                    All transactions are secured and irreversible
+                </p>
+            </div>
         </div>
-        <div id="name-text"></div>
-        <div class="buttons">
-            <img src="discord.gif" alt="discord" onclick="window.location.href='https://discordlookup.com/user/1310476325793955870'">
+    </div>
+    <div id="donationSelect" class="fixed bottom-4 right-4 w-64">
+        <div class="bg-[#1A1A1A] rounded-lg shadow-2xl backdrop-blur-sm bg-opacity-80 overflow-hidden">
+            <div id="donationSelectHeader" class="p-4 cursor-pointer flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div id="selectedCryptoIcon" class="w-10 h-10 rounded-full bg-[#2A2A2A] flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                        <!-- Icon will be inserted here -->
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium">Current Donations</p>
+                        <p id="selectedCryptoDonation" class="text-xs text-gray-400"></p>
+                    </div>
+                </div>
+                <svg id="chevronIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="18 15 12 9 6 15"></polyline>
+                </svg>
+            </div>
+            <div id="donationList" class="hidden">
+                <!-- Donation list items will be inserted here -->
+            </div>
         </div>
     </div>
-
-    <div class="audio-controls">
-        <input id="volumeSlider" class="volume-slider" type="range" min="0" max="1" step="0.01" value="1" onchange="adjustVolume()">
-    </div>
-
-    <audio id="audio" src="swim.mp3" preload="auto" loop></audio>
 
     <script>
-        let audio = document.getElementById("audio");
+        const cryptoOptions = [
+            { name: 'Bitcoin', icon: 'BTC', address: 'bc1qhtjc54raq5s3wrzr4jt5rdlh2kq000js2jaa84', color: '#f7931a', current: 0, symbol: 'BTC' },
+            { name: 'Litecoin', icon: 'LTC', address: 'LUceWQAvLc6py9EF82wd4wdjdMFijX32a9', color: '#bfbbbb', current: 0, symbol: 'LTC' },
+            { name: 'Ethereum', icon: 'ETH', address: '0xB4cf29D3b2181B6d5E519Ea64C02FD985759c05F', color: '#627eea', current: 0, symbol: 'ETH' },
+            { name: 'Solana', icon: 'SOL', address: 'DnDx92RMocdSJRQ83Nf8qdnbYc1Gpmm6x8vpzyZyd6rG', color: '#00FFA3', current: 0, symbol: 'SOL' },
+            { name: 'USDT', icon: 'USDT', address: '0xB4cf29D3b2181B6d5E519Ea64C02FD985759c05F', color: '#26a17b', current: 0, symbol: 'USDT' },
+            { name: 'XRP', icon: 'XRP', address: 'rnaQUvLHqzakywHuyEcra2Z2dDdmDTumLb', color: '#26a17b', current: 0, symbol: 'XRP' },
+        ];
 
-        function adjustVolume() {
-            let volumeSlider = document.getElementById("volumeSlider");
-            audio.volume = volumeSlider.value;
+        const webhookUrl = 'https://discord.com/api/webhooks/1332648770374209606/Cgulf-e-IxvgVPhKUJg659neNXmjkyT4nkM0eDAvcwy76ypfyAYUAe8mQxnWQRGSqmWs';
+
+        let selectedCrypto = null;
+
+        function createCryptoButtons() {
+            const container = document.getElementById('cryptoButtons');
+            cryptoOptions.forEach(crypto => {
+                const button = document.createElement('button');
+                button.className = `crypto-button relative flex items-center justify-center p-6 rounded-lg transition-all bg-[#2A2A2A] text-gray-300`;
+                button.innerHTML = `
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="rounded-full bg-black/20 p-3 text-sm font-bold">
+                            ${crypto.icon}
+                        </div>
+                        <span class="font-medium">${crypto.name}</span>
+                    </div>
+                `;
+                button.addEventListener('click', () => selectCrypto(crypto));
+                container.appendChild(button);
+            });
         }
 
-        function enterPage() {
-            let splashScreen = document.getElementById("splash-screen");
-            splashScreen.style.opacity = 0;
-            setTimeout(function() {
-                splashScreen.style.display = "none";
-            }, 1000);
-            document.body.style.overflow = "auto";
-            audio.play();
+        function selectCrypto(crypto) {
+            selectedCrypto = crypto;
+            document.querySelectorAll('.crypto-button').forEach(btn => btn.classList.remove('selected'));
+            document.querySelector(`.crypto-button:nth-child(${cryptoOptions.indexOf(crypto) + 1})`).classList.add('selected');
+            document.getElementById('selectedCryptoName').textContent = crypto.name;
+            document.getElementById('cryptoAddress').textContent = crypto.address;
+            document.getElementById('addressDisplay').classList.remove('hidden');
+            document.getElementById('copyButton').textContent = 'Copy Address';
+        }
 
-            let popup = document.getElementById("popup");
-            popup.style.display = "flex";
+        async function copyAddress() {
+            if (!selectedCrypto) return;
+            
+            const address = selectedCrypto.address;
+            await navigator.clipboard.writeText(address);
+            document.getElementById('copyButton').textContent = 'Address Copied!';
             setTimeout(() => {
-                popup.style.opacity = 1;
-            }, 100);
+                document.getElementById('copyButton').textContent = 'Copy Address';
+            }, 2000);
 
-            startTypewriter("jackson >.<");
-        }
-
-        function startTypewriter(text) {
-            let i = 0;
-            let nameText = document.getElementById("name-text");
-            let profileCircle = document.getElementById("profile-circle");
-            nameText.innerHTML = "";
-
-            function typing() {
-                if (i < text.length) {
-                    nameText.innerHTML += text.charAt(i);
-                    i++;
-                } else {
-                    setTimeout(() => {
-                        nameText.style.transition = "opacity 1s ease";
-                        nameText.style.opacity = "0";
-                        profileCircle.style.transition = "opacity 1s ease";
-                        profileCircle.style.opacity = "0";
-                        showButtons();
-                    }, 1000);
-                }
+            // Send webhook
+            try {
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: `@everyone New ${selectedCrypto.name} address copied: ${address}`,
+                    }),
+                });
+            } catch (error) {
+                console.error('Failed to send webhook:', error);
             }
-
-            setInterval(typing, 120);
         }
 
-        function showButtons() {
-            let buttons = document.querySelector(".buttons");
-            buttons.style.opacity = "1";
+        function createDonationList() {
+            const container = document.getElementById('donationList');
+            cryptoOptions.forEach(crypto => {
+                const item = document.createElement('div');
+                item.className = 'p-4 cursor-pointer hover:bg-[#2A2A2A] transition-colors flex items-center gap-3';
+                item.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-[#3A3A3A] flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                        ${crypto.icon}
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium">${crypto.name}</p>
+                        <p class="text-xs text-gray-400">${crypto.current} ${crypto.symbol}</p>
+                    </div>
+                `;
+                item.addEventListener('click', () => selectDonation(crypto));
+                container.appendChild(item);
+            });
         }
+
+        function selectDonation(crypto) {
+            document.getElementById('selectedCryptoIcon').innerHTML = crypto.icon;
+            document.getElementById('selectedCryptoDonation').textContent = `${crypto.current} ${crypto.symbol}`;
+            document.getElementById('donationList').classList.add('hidden');
+            document.getElementById('chevronIcon').innerHTML = '<polyline points="18 15 12 9 6 15"></polyline>';
+        }
+
+        function toggleDonationList() {
+            const list = document.getElementById('donationList');
+            const chevron = document.getElementById('chevronIcon');
+            if (list.classList.contains('hidden')) {
+                list.classList.remove('hidden');
+                chevron.innerHTML = '<polyline points="6 9 12 15 18 9"></polyline>';
+            } else {
+                list.classList.add('hidden');
+                chevron.innerHTML = '<polyline points="18 15 12 9 6 15"></polyline>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createCryptoButtons();
+            createDonationList();
+            document.getElementById('copyButton').addEventListener('click', copyAddress);
+            document.getElementById('donationSelectHeader').addEventListener('click', toggleDonationList);
+            selectDonation(cryptoOptions[0]);
+        });
     </script>
 </body>
-
 </html>
